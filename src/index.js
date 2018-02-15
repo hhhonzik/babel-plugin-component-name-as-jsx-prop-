@@ -38,6 +38,25 @@ export default function({ types: t }) {
               })
             }
           },
+          ArrowFunctionExpression: path2 => {
+            if (!isReactComponent(path2)) {
+              return
+            }
+            const name = getEntryIdentifier(path2);
+            path2.traverse({
+              JSXOpeningElement(path3) {
+                path3.node.attributes.unshift(
+                  t.jSXAttribute(
+                    t.jSXIdentifier(property),
+                    t.stringLiteral(name),
+                    // t.JSXExpressionContainer(t.Identifier('this.constructor.name')),
+                  ),
+                )
+                path3.stop()
+              },
+            })
+
+          },
           FunctionDeclaration: path2 => {
             if (!isReactComponent(path2)) {
               return

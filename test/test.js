@@ -31,6 +31,8 @@ describe('fixtures', () => {
 
   fixtureAssert('stateless')
   fixtureAssert('stateless-anonymous')
+  fixtureAssert('stateless-anonymous-multirender')
+  fixtureAssert('stateless-anonymous-short')
   // fixtureAssert('stateless-assignment')
   // fixtureAssert('stateless-predefined')
 })

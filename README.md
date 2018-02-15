@@ -14,6 +14,8 @@ class MyComponent extends Component {
     return <div someOtherAttribute/>;
   }
 }
+
+
 function Example() {
   return (
     <div>
@@ -22,7 +24,6 @@ function Example() {
   );
 }
 
-// doesn't work
 const Example = () => {
   return <div />;
 };
@@ -45,10 +46,8 @@ function Example() {
     </div>;
 }
 
-
-// doesn't work
 const Example = () => {
-  return <div />;
+  return <div data-name="Example" />;
 };
 ```
 
