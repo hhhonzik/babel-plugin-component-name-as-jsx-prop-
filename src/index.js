@@ -1,7 +1,30 @@
 import isReactComponent from './isReactComponent'
 import getEntryIdentifier from './getEntryIdentifier'
 
-export default function({ types: t }) {
+function isFragment(path) {
+  const name = path.node.name;
+
+  return (name.object &&
+    name.object.name === 'React' &&
+    name.property &&
+    name.property.name === 'Fragment');
+}
+
+export default function ({ types: t }) {
+  const checkElementAndAddAttribute = (path, name, property) => {
+    // if its not react fragment
+    if (!isFragment(path)) {
+      path.node.attributes.unshift(
+        t.jSXAttribute(
+          t.jSXIdentifier(property),
+          t.stringLiteral(name),
+          // t.JSXExpressionContainer(t.Identifier('this.constructor.name')),
+        ),
+      );
+    }
+
+    path.stop()
+  }
   return {
     manipulateOptions: (opts, parserOptions) => {
       parserOptions.plugins.push('jsx')
@@ -23,14 +46,7 @@ export default function({ types: t }) {
                   if (path3.node.key.name === 'render') {
                     path3.traverse({
                       JSXOpeningElement(path4) {
-                        path4.node.attributes.unshift(
-                          t.jSXAttribute(
-                            t.jSXIdentifier(property),
-                            t.stringLiteral(name),
-                            // t.JSXExpressionContainer(t.Identifier('this.constructor.name')),
-                          ),
-                        )
-                        path4.stop()
+                        checkElementAndAddAttribute(path4, name, property);
                       },
                     })
                   }
@@ -45,14 +61,7 @@ export default function({ types: t }) {
             const name = getEntryIdentifier(path2);
             path2.traverse({
               JSXOpeningElement(path3) {
-                path3.node.attributes.unshift(
-                  t.jSXAttribute(
-                    t.jSXIdentifier(property),
-                    t.stringLiteral(name),
-                    // t.JSXExpressionContainer(t.Identifier('this.constructor.name')),
-                  ),
-                )
-                path3.stop()
+                checkElementAndAddAttribute(path3, name, property);
               },
             })
 
@@ -65,14 +74,7 @@ export default function({ types: t }) {
             if (name) {
               path2.traverse({
                 JSXOpeningElement(path3) {
-                  path3.node.attributes.unshift(
-                    t.jSXAttribute(
-                      t.jSXIdentifier(property),
-                      t.stringLiteral(name),
-                      // t.JSXExpressionContainer(t.Identifier('this.constructor.name')),
-                    ),
-                  )
-                  path3.stop()
+                  checkElementAndAddAttribute(path3, name, property);
                 },
               })
             }
