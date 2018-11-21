@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-component-name-as-jsx-prop",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Add property to render with component name",
   "main": "lib/index.js",
   "files": [
