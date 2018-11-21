@@ -7,7 +7,9 @@ function isFragment(path) {
   return (name.object &&
     name.object.name === 'React' &&
     name.property &&
-    name.property.name === 'Fragment');
+    name.property.name === 'Fragment') || (
+      name.name && name.name === 'Fragment'
+    );
 }
 
 export default function ({ types: t }) {

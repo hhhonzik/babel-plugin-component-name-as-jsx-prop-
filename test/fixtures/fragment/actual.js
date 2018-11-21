@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 export const Example = () => <React.Fragment />;
 
 export class Example2 extends React.PureComponent {
   render() {
-    return <React.Fragment />;
+    return <Fragment />;
   }
 }
 
@@ -14,3 +14,6 @@ export class Example3 extends React.Component {
     return <React.Fragment />;
   }
 }
+
+// babel 7
+// export const Example4 = () => <></>;
